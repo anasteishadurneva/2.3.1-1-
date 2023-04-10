@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:c="http://java.sun.com/xml/ns/javaee" xmlns:from="http://xmlns.jcp.org/xml/ns/javaee"
+      xmlns:spring="http://www.w3.org/1999/XSL/Transform">
+<head>
+  <title>Table users</title>
+
+  <style type="text/css">
+    .tg{
+      border-collapse: collapse;
+      border-spacing: 2px;
+      border-color: cornflowerblue;
+    }
+
+    .tg td{
+      font-family: Calibri, sans-serif;
+      font-size: 14px;
+      padding: 10px 5px;
+      border-style: solid;
+      border-width: 1px;
+      overflow: hidden;
+      word-break: normal;
+      border-color: #ccc;
+      color: #333;
+      background-color: #fff;
+    }
+    .tg th{
+      font-family: Calibri, sans-serif;
+      font-size: 14px;
+      font-weight: normal;
+      padding: 10px 5px;
+      border-style: solid;
+      border-width: 1px;
+      overflow: hidden;
+      word-break: normal;
+      border-color: #ccc;
+      color: #333;
+      background-color: #fff;
+    }
+    .tg .tg-4eph{
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+<a href="../../index.jsp">Back to main menu</a>
+
+</br>
+</br>
+
+<h1>User List</h1>
+<c:if test="${!empty listUsers}">
+  <table class="tg">
+    <tr>
+      <th width="80">ID</th>
+      <th width="120">NAME</th>
+      <th width="120">LASTNAME</th>
+      <th width="80">AGE</th>
+      <th width="120">EMAIL</th>
+      <th width="60">Edit</th>
+      <th width="60">Delete</th>
+
+    </tr>
+    <c:forEach items="${listUsers}" var="user">
+      <tr>
+        <td>${user.id}</td>
+        <td>${user.name}</td>
+        <td>${user.lastName}</td>
+        <td>${user.age}</td>
+        <td>${user.email}</td>
+        <td><a href="<c:url value='/edit/${user.id}'/>">">Edit</a></td>
+        <td><a href="<c:url value='/remove/${user.id}'/>">">Delete</a></td>
+      </tr>
+    </c:forEach>
+  </table>
+</c:if>
+
+<h1>Add user</h1>
+<c:url var="addAction" value="/users/add"/>
+<from:from action="${addAction}" commandName="user">
+  <table>
+    <c:if test="${!empty user.name}">
+      <tr>
+        <td>
+          <from:label path="id">
+            <spring:message text="ID"/>
+          </from:label>
+        </td>
+      </tr>
+    </c:if>
+    <tr>
+      <td>
+        <from:label path="name">
+          <spring:message text="NAME"/>
+        </from:label>
+      </td>
+      <td>
+        <from:input path="name"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <from:label path="lastName">
+          <spring:message text="LASTNAME"/>
+        </from:label>
+      </td>
+      <td>
+        <from:input path="lastName"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <from:label path="age">
+          <spring:message text="AGE"/>
+        </from:label>
+      </td>
+      <td>
+        <from:input path="age"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <from:label path="email">
+          <spring:message text="EMAIL"/>
+        </from:label>
+      </td>
+      <td>
+        <from:input path="email"/>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <c:if test="${!empty user.userTitle}">
+          <input type="submit" value="<spring:message text='Edit User'/>"/>
+        </c:if>
+        <c:if test="${empty user.userTitle}">
+          <input type="submit" value="<spring:message text='Add User'/>"/>
+        </c:if>
+      </td>
+    </tr>
+  </table>
+</from:from>
+</body>
+</html>
